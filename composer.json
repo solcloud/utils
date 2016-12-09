@@ -1,0 +1,11 @@
+{
+    "name": "solcloud/utils",
+    "require": {
+        "nette/utils": "*"
+    },
+	"autoload": {
+        "psr-4": {
+            "Solcloud\\Utils\\": "src"
+        }
+    }
+}
