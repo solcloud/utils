@@ -1,6 +1,9 @@
 {
     "name": "solcloud/utils",
+    "description": "Basic solcloud utils",
+    "license": "MIT",
     "require": {
+        "php": ">= 5.4",
         "nette/utils": "*"
     },
 	"autoload": {
