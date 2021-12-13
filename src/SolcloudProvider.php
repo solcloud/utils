@@ -169,7 +169,7 @@ class SolcloudProvider implements ServiceProviderInterface
             $worker->setFailedExchange(HashMap::get('consumer.failedExchange', null, false));
             $worker->setFailedRoutingKey(HashMap::get('consumer.failedRoutingKey', null, false));
             $worker->setMaximumNumberOfProcessedMessages(HashMap::get('consumer.maximumNumberOfProcessedMessages'));
-            $worker->setPrefetch(HashMap::get('consumer.prefetch.count', 1), HashMap::get('consumer.prefetch.sizeOctets', null, false));
+            $worker->setPrefetch(HashMap::get('consumer.prefetch.count', 1), HashMap::get('consumer.prefetch.sizeOctets', 0));
 
             return $worker;
         };

@@ -71,10 +71,12 @@ class Logger
 
     public static function setLog($fileName = null)
     {
-        $dir = dirname($fileName);
+        if (null !== $fileName) {
+            $dir = dirname($fileName);
 
-        if (!file_exists($fileName) && !file_exists($dir) && mkdir($dir) && !is_writable($dir)) {
-            throw new InvalidArgumentException("Cannot write to '{$fileName}'");
+            if (!file_exists($fileName) && !file_exists($dir) && mkdir($dir) && !is_writable($dir)) {
+                throw new InvalidArgumentException("Cannot write to '{$fileName}'");
+            }
         }
         static::$log = $fileName;
     }

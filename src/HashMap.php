@@ -16,12 +16,16 @@ class HashMap {
         return false;
     }
 
-    public static function get($key, $returnIfNotExists = NULL, $throwExeptionWhenDefaultNull = true) {
+    public static function getOrNull($key) {
+        return static::get($key, null, false);
+    }
+
+    public static function get($key, $returnIfNotExists = NULL, $throwExceptionWhenDefaultNull = true) {
         if (static::has($key)) {
             return static::$data[$key];
         }
 
-        if ($returnIfNotExists === NULL && $throwExeptionWhenDefaultNull) {
+        if ($returnIfNotExists === NULL && $throwExceptionWhenDefaultNull) {
             throw new InvalidArgumentException("Key '{$key}' do not exists");
         }
 

@@ -5,7 +5,8 @@ use Solcloud\Utils\HashMap;
 
 Logger::setLevel(HashMap::get('dependency.logger.debug.level', Logger::INFO));
 Logger::setDisplay(HashMap::get('dependency.logger.debug.screen', false));
-Logger::setRemoteLogUrl(HashMap::get('dependency.logger.debug.remoteLogUrl'));
+Logger::setRemoteLogUrl(HashMap::getOrNull('dependency.logger.debug.remoteLogUrl'));
+Logger::setLog(HashMap::getOrNull('dependency.logger.debug.log'));
 Logger::setExceptionShouldPrintStackTrace(HashMap::get('dependency.logger.debug.stacktrace', true));
 
 register_shutdown_function(function () {

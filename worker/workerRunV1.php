@@ -1,7 +1,7 @@
 <?php
 
 use PhpAmqpLib\Exception\AMQPTimeoutException;
-use Solcloud\Message\Exceptions\NumberOfProcessedMessagesExceed;
+use Solcloud\Consumer\Exceptions\NumberOfProcessedMessagesExceed;
 use Solcloud\Utils\HashMap;
 use Solcloud\Utils\Logger;
 
