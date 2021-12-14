@@ -16,8 +16,8 @@ _run.php_
 
 ```php
 if ('dev' === getenv('DEVTOKEN')) {
-    require __DIR__ . '/vendor/solcloud/utils/boilerplate/workerBaseDebug.php';
+    require __DIR__ . '/vendor/solcloud/utils/worker/workerBaseDebug.php';
 } else {
-    require __DIR__ . '/vendor/solcloud/utils/boilerplate/workerBase.php';
+    require __DIR__ . '/vendor/solcloud/utils/worker/workerBase.php';
 }
 ```
