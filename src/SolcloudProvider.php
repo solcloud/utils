@@ -14,7 +14,9 @@ use Solcloud\Utils\DibiFactory;
 use Solcloud\Utils\DateFactory;
 use Solcloud\Consumer\QueueConfig;
 use PhpAmqpLib\Channel\AMQPChannel;
+use ElasticsearchUtils\QueryBuilder;
 use Pimple\ServiceProviderInterface;
+use AmqpMessageQueue\AmqpMessageQueue;
 use Solcloud\Consumer\QueueConnectionFactory;
 use PhpAmqpLib\Connection\AbstractConnection;
 use ElasticsearchUtils\Elasticsearch\Elasticsearch;
@@ -134,6 +136,10 @@ class SolcloudProvider implements ServiceProviderInterface
             return $elasticsearch;
         };
 
+        $container['queryBuilder'] = function ($c): QueryBuilder {
+            return new QueryBuilder();
+        };
+
         $container['s3Client'] = function ($c): S3Client {
             $s3Client = new S3Client([
                 'region' => HashMap::get('s3Client.connection.region', 'us-east-1'),
@@ -165,6 +171,12 @@ class SolcloudProvider implements ServiceProviderInterface
             if (method_exists($worker, 'setRedis')) {
                 $worker->setRedis($c['redis']);
             }
+            if (method_exists($worker, 'setElasticsearchUtils')) {
+                $worker->setElasticsearchUtils($c['elasticsearch'], $c['queryBuilder'], isset($c['dictionaryModel']) ? $c['dictionaryModel'] : null);
+            }
+            if (method_exists($worker, 'setCephSolcloudSdk')) {
+                $worker->setCephSolcloudSdk($c['s3Client']);
+            }
 
             $worker->setFailedExchange(HashMap::get('consumer.failedExchange', null, false));
             $worker->setFailedRoutingKey(HashMap::get('consumer.failedRoutingKey', null, false));
@@ -174,6 +186,18 @@ class SolcloudProvider implements ServiceProviderInterface
             return $worker;
         };
 
+        $container['amqpMessageQueue'] = function ($c): AmqpMessageQueue {
+            $amq = new AmqpMessageQueue([
+                'host' => HashMap::get('mq.connection.host'),
+                'port' => HashMap::get('mq.connection.port'),
+                'username' => HashMap::get('mq.connection.username'),
+                'password' => HashMap::get('mq.connection.password'),
+                'vhost' => HashMap::get('mq.connection.vhost'),
+            ]);
+            $amq->setPersistMsg(HashMap::get('mq.connection.shouldPersistMsg', true));
+
+            return $amq;
+        };
     }
 
 }
