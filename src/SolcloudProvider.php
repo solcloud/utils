@@ -36,21 +36,13 @@ class SolcloudProvider implements ServiceProviderInterface
         $container['queueConfig'] = function ($c): QueueConfig {
             $queueConfig = new QueueConfig;
 
-            if (HashMap::has('mq.connection.host')) {
-                $queueConfig->setHost(HashMap::get('mq.connection.host'));
-            }
+            $queueConfig->setHost(HashMap::get('mq.connection.host', 'solcloud_rabbitmq'));
             if (HashMap::has('mq.connection.port')) {
                 $queueConfig->setPort(HashMap::get('mq.connection.port'));
             }
-            if (HashMap::has('mq.connection.username')) {
-                $queueConfig->setUsername(HashMap::get('mq.connection.username'));
-            }
-            if (HashMap::has('mq.connection.password')) {
-                $queueConfig->setPassword(HashMap::get('mq.connection.password'));
-            }
-            if (HashMap::has('mq.connection.vhost')) {
-                $queueConfig->setVhost(HashMap::get('mq.connection.vhost'));
-            }
+            $queueConfig->setUsername(HashMap::get('mq.connection.username', 'dev'));
+            $queueConfig->setPassword(HashMap::get('mq.connection.password', 'dev'));
+            $queueConfig->setVhost(HashMap::get('mq.connection.vhost', '/'));
             if (HashMap::has('mq.connection.timeoutSec')) {
                 $queueConfig->setConnectionTimeoutSec(HashMap::get('mq.connection.timeoutSec'));
             }
