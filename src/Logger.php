@@ -118,7 +118,7 @@ class Logger
 
         $msg = str_replace(["\n", "\r"], '<br>', (string) $msg);
         if (static::$lastMessageIdentifier !== null) {
-            $msg = '(' . static::$lastMessageIdentifier . ') ' . $msg;
+            $msg .= ' (' . static::$lastMessageIdentifier . ')';
         }
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
         if ($source === null && isset($caller[1])) {
@@ -130,13 +130,13 @@ class Logger
         }
 
         $source = $source === null ? 'Source: UNKNOWN' : $source;
-        $msg = sprintf('[%s] %s @ %s, %s', date('Y-m-d H:i:s'), $msg, $source . ', ' . gethostname(), $level);
+        $msgFull = sprintf('[%s] %s @ %s, %s', date('Y-m-d H:i:s'), $msg, $source . ', ' . gethostname(), $level);
 
         if (static::$display === true) {
-            echo $msg . PHP_EOL;
+            echo $msgFull . PHP_EOL;
         }
         if (!is_null(static::$log)) {
-            file_put_contents(static::$log, $msg . PHP_EOL, FILE_APPEND);
+            file_put_contents(static::$log, $msgFull . PHP_EOL, FILE_APPEND);
         }
         if (static::$remoteLogUrl) {
             static::remoteLog($msg, $level, $source);
@@ -144,7 +144,7 @@ class Logger
 
         if (isset(static::$callbacks[$levelID])) {
             foreach (static::$callbacks[$levelID] as $callback) {
-                call_user_func($callback, $msg, $source, $level);
+                call_user_func($callback, $msgFull, $source, $level);
             }
         }
 
