@@ -92,9 +92,9 @@ class SolcloudProvider implements ServiceProviderInterface
         $container['dibiFactory'] = function ($c): DibiFactory {
             $params = [
                 'driver' => HashMap::get('dependency.dibi.driver', 'mysqli'),
-                'host' => HashMap::get('dependency.dibi.host'),
-                'username' => HashMap::get('dependency.dibi.username'),
-                'password' => HashMap::get('dependency.dibi.password'),
+                'host' => HashMap::get('dependency.dibi.host', 'solcloud_mysql'),
+                'username' => HashMap::get('dependency.dibi.username', 'root'),
+                'password' => HashMap::get('dependency.dibi.password', 'dev'),
                 'lazy' => HashMap::get('dependency.dibi.lazy', true),
                 'charset' => HashMap::get('dependency.dibi.charset', 'utf8'),
             ];
@@ -111,7 +111,7 @@ class SolcloudProvider implements ServiceProviderInterface
 
         $container['redis'] = function ($c): Redis {
             $redis = new Redis();
-            $redis->pconnect(HashMap::get('dependency.redis.host'));
+            $redis->pconnect(HashMap::get('dependency.redis.host', 'solcloud_redis'));
             $redis->select(HashMap::get('dependency.redis.db'));
 
             return $redis;
@@ -180,11 +180,11 @@ class SolcloudProvider implements ServiceProviderInterface
 
         $container['amqpMessageQueue'] = function ($c): AmqpMessageQueue {
             $amq = new AmqpMessageQueue([
-                'host' => HashMap::get('mq.connection.host'),
-                'port' => HashMap::get('mq.connection.port'),
-                'username' => HashMap::get('mq.connection.username'),
-                'password' => HashMap::get('mq.connection.password'),
-                'vhost' => HashMap::get('mq.connection.vhost'),
+                'host' => HashMap::get('mq.connection.host', 'solcloud_rabbitmq'),
+                'port' => HashMap::get('mq.connection.port', 5672),
+                'username' => HashMap::get('mq.connection.username', 'dev'),
+                'password' => HashMap::get('mq.connection.password', 'dev'),
+                'vhost' => HashMap::get('mq.connection.vhost', '/'),
             ]);
             $amq->setPersistMsg(HashMap::get('mq.connection.shouldPersistMsg', true));
 
