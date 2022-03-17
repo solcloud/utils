@@ -3,9 +3,8 @@
     "description": "Basic solcloud utils",
     "license": "MIT",
     "require": {
-        "php": ">= 5.4",
-        "psr/log": "^1.1",
-        "nette/utils": "*"
+        "php": ">= 7.1",
+        "psr/log": "^1.1"
     },
 	"autoload": {
         "psr-4": {
