@@ -22,4 +22,17 @@ class File
         return $falseIfError;
     }
 
+    public static function putContent(string $fileName, string &$content): void
+    {
+        $falseIfError = file_put_contents($fileName, $content);
+        if ($falseIfError === false) {
+            throw new Exception("Cannot put contents to '{$fileName}'");
+        }
+    }
+
+    public static function putContentCopy(string $fileName, string $content): void
+    {
+        self::putContent($fileName, $content);
+    }
+
 }
