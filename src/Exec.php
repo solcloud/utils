@@ -6,6 +6,15 @@ use Exception;
 
 class Exec
 {
+    public static function exec(string $command, int $successExitCode = 0): array
+    {
+        if (exec($command, $output, $resultCode) && $resultCode === $successExitCode) {
+            return $output;
+        }
+
+        throw new Exception("Command '{$command}' failed with code '{$resultCode}'");
+    }
+
     public static function std(string $command, &$stdIn, &$stdErr = null): string
     {
         $stdOut = null;
