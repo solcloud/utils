@@ -98,6 +98,7 @@ class BaseRepository
     public function findOrFailEntityByUuId(string $class, string $uuid, string $columnName = 'uuid')
     {
         return $this->findOrFailEntityBy(
+            $class,
             [
                 $columnName => $uuid,
             ], "Entity '{$class}' with uuid '{$uuid}' not found in column '{$columnName}'"
