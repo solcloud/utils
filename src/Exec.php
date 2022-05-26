@@ -8,7 +8,7 @@ class Exec
 {
     public static function exec(string $command, int $successExitCode = 0): array
     {
-        if (exec($command, $output, $resultCode) && $resultCode === $successExitCode) {
+        if (false !== exec($command, $output, $resultCode) && $resultCode === $successExitCode) {
             return $output;
         }
 
