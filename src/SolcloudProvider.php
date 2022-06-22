@@ -82,7 +82,7 @@ class SolcloudProvider implements ServiceProviderInterface
         $container['workerMainChannel'] = function ($c): AMQPChannel {
             $queueConnection = $c['queueConnection'];
 
-            if (HashMap::get('workerMainChannel.pcntlHearbeatSenderEnable', false)) {
+            if (HashMap::get('workerMainChannel.pcntlHeartbeatSenderEnable', false)) {
                 (new PCNTLHeartbeatSender($queueConnection))->register();
             }
 
