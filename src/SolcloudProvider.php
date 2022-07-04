@@ -112,6 +112,7 @@ class SolcloudProvider implements ServiceProviderInterface
         $container['redis'] = function ($c): Redis {
             $redis = new Redis();
             $redis->pconnect(HashMap::get('dependency.redis.host', 'solcloud_redis'));
+            $redis->auth([HashMap::get('dependency.redis.username', ''), HashMap::get('dependency.redis.password', '')]);
             $redis->select(HashMap::get('dependency.redis.db'));
 
             return $redis;
