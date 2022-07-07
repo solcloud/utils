@@ -11,7 +11,12 @@ $worker->consume(HashMap::get('consumer.consumeQueue'), HashMap::get('consumer.n
 
 while ($worker->hasCallback()) {
     try {
-        $worker->wait(mt_rand(HashMap::get('consumer.channel.wait.minSec', 3600), HashMap::get('consumer.channel.wait.maxSec', 4800)));
+        if (HashMap::get('workerMainChannel.pcntlHeartbeatSenderEnable', false)) {
+            $idleTimeoutSec = 0;
+        } else {
+            $idleTimeoutSec = mt_rand(HashMap::get('consumer.channel.wait.minSec', 3600), HashMap::get('consumer.channel.wait.maxSec', 4800));
+        }
+        $worker->wait($idleTimeoutSec);
     } catch (Exception $ex) {
         if ($ex instanceof NumberOfProcessedMessagesExceed || $ex instanceof AMQPTimeoutException) {
             Logger::exception($ex, Logger::TRACE);
