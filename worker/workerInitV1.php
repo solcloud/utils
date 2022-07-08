@@ -28,7 +28,7 @@ set_exception_handler(function ($ex) {
 });
 
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-    if (error_reporting() === 0) { // if error has been suppressed with an @
+    if (!(error_reporting() & $errno)) { // if error has been suppressed with an @
         return;
     }
 
