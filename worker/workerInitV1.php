@@ -52,7 +52,7 @@ if (HashMap::get('notify.mail.enable', false) && isset($container['redis']) && H
 
         $redis->set($filenameLock, 'lock', ['ex' => HashMap::get('nofify.mail.lock.expirySec', 86400 /* one day */)]);
         mail(
-            HashMap::get('notify.mail.email'),
+            HashMap::get('notify.mail.to'),
             $subject,
             implode('<br><br>', [$msg, gethostname(), $filenameLock]),
             "From: {$from} <" . HashMap::get('notify.mail.sender', HashMap::get('notify.mail.to')) . ">\r\nMIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\n"
